@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
-import { DropDownList } from '@progress/kendo-react-dropdowns';
-import { Grid, GridColumn as Column } from '@progress/kendo-react-grid';
-import { orderBy } from '@progress/kendo-data-query';
+import {
+  Grid,
+  GridCellProps,
+  GridCell,
+  GridToolbar,
+  GridDerailRow,
+  GridColumn as Column
+} from '@progress/kendo-react-grid';
+import { filterBy, orderBy } from '@progress/kendo-data-query';
 import '@progress/kendo-theme-default/dist/all.css';
 import './App.css';
 
@@ -10,8 +16,15 @@ import nutrition from './nutrition.json';
 class App extends Component {
   constructor(props) {
     super(props);
+    const initialFilter = {
+      logic: "and",
+      filters: [{ field: "Description", operator: "contains", value: "Apple" }]
+    };
+    
     this.state = {
       nutrition: this.getNutrition([]),
+      data: this.getfilterNutrition(initialFilter),
+      filter: initialFilter,
       sort: [],
       allowUnsort: true
     };
@@ -25,8 +38,19 @@ class App extends Component {
     });
   }
 
-  getNutrition = (sort) => orderBy(nutrition, sort);
+  filterChange = (event) => {
+    this.setState({
+      data: this.getfilterNutrition(event.filter),
+      filter: event.filter
+    });
+  }
 
+  getNutrition = (sort) => orderBy(nutrition, sort);
+  getfilterNutrition = (filter) => {
+    let data = nutrition.slice();
+    return filterBy(data, filter);
+  }
+      
   render() {
     return (
       <div className="App">
