@@ -11,7 +11,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ratings: ['Rad', 'Awesome', 'Stellar', 'Interstellar 👽'],
       nutrition: this.getNutrition([]),
       sort: [],
       allowUnsort: true
@@ -31,8 +30,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <h1> Healthy Things! </h1>
         <Grid
-          style={{ maxHeight: '500px'}}
+          style={{ maxHeight: '500px' }}
           data={this.state.nutrition}
           sortable={{
             allowUnsort: this.state.allowUnsort,
@@ -46,7 +46,6 @@ class App extends Component {
           <Column field='Carbohydrate, by difference(g)Per Measure' title='Carbs' />
           <Column field='Sugars, total(g)Per Measure' title='Sugars' />
         </Grid>
-        <DropDownList data={this.state.ratings} />
       </div>
     );
   }
