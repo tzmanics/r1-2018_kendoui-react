@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import {
   Grid,
-  GridCellProps,
-  GridCell,
-  GridToolbar,
-  GridDerailRow,
   GridColumn as Column
 } from '@progress/kendo-react-grid';
-import { filterBy, orderBy } from '@progress/kendo-data-query';
+import { filterBy } from '@progress/kendo-data-query';
 import '@progress/kendo-theme-default/dist/all.css';
 import './App.css';
 
@@ -15,38 +11,27 @@ import nutrition from './nutrition.json';
 
 class App extends Component {
   constructor(props) {
-    super(props);
+    super(props
     const initialFilter = {
       logic: "and",
-      filters: [{ field: "Description", operator: "contains", value: "Apple" }]
+      filters: [{ field: "Food", operator: "contains", value: "Apple" }]
     };
     
     this.state = {
-      nutrition: this.getNutrition([]),
-      data: this.getfilterNutrition(initialFilter),
+      data: this.getNutrition(initialFilter),
       filter: initialFilter,
-      sort: [],
-      allowUnsort: true
     };
-    this.sortChange = this.sortChange.bind(this);
+    this.filterChange = this.filterChange.bind(this);
   }
 
-  sortChange = (event) => {
+  filterChange = function (event) {
     this.setState({
-      nutrition: this.getNutrition(event.sort),
-      sort: event.sort
-    });
-  }
-
-  filterChange = (event) => {
-    this.setState({
-      data: this.getfilterNutrition(event.filter),
+      data: this.getNutrition(event.filter),
       filter: event.filter
     });
   }
 
-  getNutrition = (sort) => orderBy(nutrition, sort);
-  getfilterNutrition = (filter) => {
+  getNutrition (filter) {
     let data = nutrition.slice();
     return filterBy(data, filter);
   }
@@ -58,12 +43,9 @@ class App extends Component {
         <Grid
           style={{ maxHeight: '500px' }}
           data={this.state.nutrition}
-          sortable={{
-            allowUnsort: this.state.allowUnsort,
-            mode: 'multiple'
-          }}
-          sort={this.state.sort}
-          sortChange={this.sortChange}>
+          filterable={true}
+          filter={this.state.filter}
+          filterChange={this.filterChange}>
           <Column field='Description' title='Food' />
           <Column field='Measure' title='Amount' />
           <Column field='Protein(g)Per Measure' title='Protein' />
