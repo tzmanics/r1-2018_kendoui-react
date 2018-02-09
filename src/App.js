@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Grid, GridColumn as Column } from '@progress/kendo-react-grid';
+import { NumericTextBox } from '@progress/kendo-react-inputs';
 import { filterBy } from '@progress/kendo-data-query';
 import '@progress/kendo-theme-default/dist/all.css';
 import './App.css';
@@ -46,6 +47,9 @@ class App extends Component {
           <Column field='Carbohydrate, by difference(g)Per Measure' title='Carbs' />
           <Column field='Sugars, total(g)Per Measure' title='Sugars' />
         </Grid>
+        <NumericTextBox
+          placeholder='iteration'
+        />
       </div>
     );
   }
