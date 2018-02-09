@@ -18,6 +18,8 @@ class App extends Component {
     this.state = {
       data: this.getnutrition(initialFilter),
       filter: initialFilter,
+      interationValue: null,
+      goalName: 'Water'
     };
     this.filterChange = this.filterChange.bind(this);
   }
@@ -30,6 +32,18 @@ class App extends Component {
   }
 
   getnutrition = (filter) => filterBy(nutrition, filter);
+
+  iterationChange = (event) => {
+    this.setState({ 
+      iterationValue: event.value
+    });
+  }
+
+  goalNameChange = (event) => {
+    this.setState({ 
+      goalName: event.value
+    });
+  }
       
   render() {
     return (
@@ -47,9 +61,27 @@ class App extends Component {
           <Column field='Carbohydrate, by difference(g)Per Measure' title='Carbs' />
           <Column field='Sugars, total(g)Per Measure' title='Sugars' />
         </Grid>
-        <NumericTextBox
-          placeholder='iteration'
-        />
+        <div clasName="iteration-area">
+          <h2> Healthy Habits </h2>
+          <div className="goal-list">
+            <h3> Goals </h3>
+          </div>
+          <div className="addIterationGoal">
+            <p> 
+              Goal name:  
+              <input type="text" />
+            </p>
+            <p>
+              Number of iterations:
+              <NumericTextBox
+                placeholder='iteration'
+                onChange={this.iterationChange}
+              />
+              <h4>{this.state.goalName}</h4>
+              <button> Add Goal </button>
+            </p>
+          </div>
+        </div>
       </div>
     );
   }
