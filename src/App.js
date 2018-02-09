@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Grid,
-  GridColumn as Column
-} from '@progress/kendo-react-grid';
+import { Grid, GridColumn as Column } from '@progress/kendo-react-grid';
 import { filterBy } from '@progress/kendo-data-query';
 import '@progress/kendo-theme-default/dist/all.css';
 import './App.css';
@@ -11,30 +8,27 @@ import nutrition from './nutrition.json';
 
 class App extends Component {
   constructor(props) {
-    super(props
+    super(props)
     const initialFilter = {
-      logic: "and",
-      filters: [{ field: "Food", operator: "contains", value: "Apple" }]
+      logic: 'and',
+      filters: [{ field: 'Description', operator: 'contains', value: 'Apple' }]
     };
     
     this.state = {
-      data: this.getNutrition(initialFilter),
+      data: this.getnutrition(initialFilter),
       filter: initialFilter,
     };
     this.filterChange = this.filterChange.bind(this);
   }
 
-  filterChange = function (event) {
+  filterChange = (event) => {
     this.setState({
-      data: this.getNutrition(event.filter),
+      data: this.getnutrition(event.filter),
       filter: event.filter
     });
   }
 
-  getNutrition (filter) {
-    let data = nutrition.slice();
-    return filterBy(data, filter);
-  }
+  getnutrition = (filter) => filterBy(nutrition, filter);
       
   render() {
     return (
@@ -42,7 +36,7 @@ class App extends Component {
         <h1> Healthy Things! </h1>
         <Grid
           style={{ maxHeight: '500px' }}
-          data={this.state.nutrition}
+          data={this.state.data}
           filterable={true}
           filter={this.state.filter}
           filterChange={this.filterChange}>
