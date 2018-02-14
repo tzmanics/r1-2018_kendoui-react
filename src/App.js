@@ -19,7 +19,7 @@ class App extends Component {
       data: this.getnutrition(initialFilter),
       filter: initialFilter,
       interationValue: null,
-      goalName: 'Water'
+      goals: []
     };
     this.filterChange = this.filterChange.bind(this);
   }
@@ -33,21 +33,32 @@ class App extends Component {
 
   getnutrition = (filter) => filterBy(nutrition, filter);
 
-  iterationChange = (event) => {
-    this.setState({ 
-      iterationValue: event.value
+  handleGoalChange = (idx) => (event) => {
+    const newGoals = this.state.goals.map((goal, sidx) => {
+      if (idx !== sidx) return goal;
+      return { ...goal };
+    });
+
+    this.setState({ goals: newGoals });
+  }
+
+  handleSubmit = (event) => {
+    const { goals } = this.state;
+  }
+
+  handleAddGoal = () => {
+    this.setState({ goals: this.state.goals.concat([{ goal: ''}])});
+  }
+      
+  handleRemoveGoal = (idx) => () => {
+    this.setState({
+      goals: this.state.goals.filter((s, sidx) => idx !== sidx)
     });
   }
 
-  goalNameChange = (event) => {
-    this.setState({ 
-      goalName: event.value
-    });
-  }
-      
   render() {
     return (
-      <div className="App">
+      <div className='App'>
         <h1> Healthy Things! </h1>
         <Grid
           style={{ maxHeight: '500px' }}
@@ -61,25 +72,25 @@ class App extends Component {
           <Column field='Carbohydrate, by difference(g)Per Measure' title='Carbs' />
           <Column field='Sugars, total(g)Per Measure' title='Sugars' />
         </Grid>
-        <div clasName="iteration-area">
+        <div clasName='iteration-area'>
           <h2> Healthy Habits </h2>
-          <div className="goal-list">
+          <div className='goal-list'>
             <h3> Goals </h3>
           </div>
-          <div className="addIterationGoal">
-            <p> 
-              Goal name:  
-              <input type="text" />
-            </p>
-            <p>
-              Number of iterations:
-              <NumericTextBox
-                placeholder='iteration'
-                onChange={this.iterationChange}
-              />
-              <h4>{this.state.goalName}</h4>
-              <button> Add Goal </button>
-            </p>
+          <div className='addIterationGoal'>
+            <form onSubmit={this.handleSubmit}>
+              {this.state.goals.map((goal, idx) => (
+                <div className='goals'>
+                  <input
+                    type='text'
+                    placeholder={`Goal #${idx +1} name`}
+                    value={goal.name}
+                  />
+                </div>
+              ))}
+              <button type='button' onClick={this.handleAddGoal}
+                className='add'>Add Goal</button>
+            </form>
           </div>
         </div>
       </div>
