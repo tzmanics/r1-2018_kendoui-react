@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { DropDownList } from '@progress/kendo-react-dropdowns';
 import { Grid, GridColumn as Column } from '@progress/kendo-react-grid';
 import { NumericTextBox } from '@progress/kendo-react-inputs';
+import { Button } from '@progress/kendo-react-buttons';
 import { filterBy } from '@progress/kendo-data-query';
 import '@progress/kendo-theme-default/dist/all.css';
 import './App.css';
@@ -111,9 +112,9 @@ class App extends Component {
               value={this.state.goalIteration}
               onChange={this.handleIterationChange}
             />
-            <button type='button' onClick={this.handleAddGoal} className='add'>
+            <Button primary={true} onClick={this.handleAddGoal}>
               Add Goal
-            </button>
+            </Button>
           </div>
         </div>
       </div>
