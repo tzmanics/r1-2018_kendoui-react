@@ -98,7 +98,11 @@ class App extends Component {
               {this.testGoals.map((goal) => [
                 <li>
                   <h3>{goal.name}</h3>
-                  <p>{goal.iterations}</p>
+                  <div className='iterations'>
+                    { [...Array(goal.iterations)].map(() => {
+                      return <input type='radio' /> 
+                    })}
+                  </div>
                 </li>
               ])}
             </ul>
