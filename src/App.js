@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { DropDownList } from '@progress/kendo-react-dropdowns';
 import { Grid, GridColumn as Column } from '@progress/kendo-react-grid';
 import { NumericTextBox } from '@progress/kendo-react-inputs';
 import { filterBy } from '@progress/kendo-data-query';
@@ -8,13 +9,26 @@ import './App.css';
 import nutrition from './nutrition.json';
 
 class App extends Component {
+  goalOptions =  [
+    'Cup of Water',
+    '10 Minutes of Meditation',
+    'Hour of Code',
+    '10 Pushups',
+    'Hour of Articles',
+    'Hour of Reading'
+  ];
+    
   constructor(props) {
     super(props)
     const initialFilter = {
       logic: 'and',
-      filters: [{ field: 'Description', operator: 'contains', value: 'Apple' }]
+      filters: [{
+        field: 'Description',
+        operator: 'contains',
+        value: 'Apple'
+      }],
     };
-    
+
     this.state = {
       data: this.getnutrition(initialFilter),
       filter: initialFilter,
@@ -79,17 +93,11 @@ class App extends Component {
           </div>
           <div className='addIterationGoal'>
             <form onSubmit={this.handleSubmit}>
-              {this.state.goals.map((goal, idx) => (
-                <div className='goals'>
-                  <input
-                    type='text'
-                    placeholder={`Goal #${idx +1} name`}
-                    value={goal.name}
-                  />
-                </div>
-              ))}
-              <button type='button' onClick={this.handleAddGoal}
-                className='add'>Add Goal</button>
+              <DropDownList data={this.goalOptions} />
+              <NumericTextBox />
+              <button type='button' onClick={this.handleAddGoal} className='add'>
+                Add Goal
+              </button>
             </form>
           </div>
         </div>
