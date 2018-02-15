@@ -18,24 +18,6 @@ class App extends Component {
     'Hour of Reading'
   ];
 
-  testGoals = [{
-    'id': 0,
-    'name': 'Hour of Articles',
-    'iterations': 2,
-  },{
-    'id': 1,
-    'name': 'Cup of Water',
-    'iterations': 8,
-  },{
-    'id': 2,
-    'name': 'Hour of Code',
-    'iterations': 4,
-  },{
-    'id': 3,
-    'name': '10 Mintues of Meditation',
-    'iterations': 6,
-  }];
-    
   constructor(props) {
     super(props)
     const initialFilter = {
@@ -50,7 +32,10 @@ class App extends Component {
     this.state = {
       data: this.getnutrition(initialFilter),
       filter: initialFilter,
-      interationValue: null,
+      goalId: 0,
+      goalName: '',
+      goalIteration: null,
+      goals: []
     };
     this.filterChange = this.filterChange.bind(this);
   }
@@ -64,16 +49,25 @@ class App extends Component {
 
   getnutrition = (filter) => filterBy(nutrition, filter);
 
-  handleAddGoal = () => {
-    this.setState({ goals: this.state.goals.concat([{ goal: ''}])});
-  }
-      
-  handleRemoveGoal = (idx) => () => {
-    this.setState({
-      goals: this.state.goals.filter((s, sidx) => idx !== sidx)
-    });
+  handleNameChange = (event) => {
+    this.setState({ goalName: event.target.value });
   }
 
+  handleIterationChange = (event) => {
+    this.setState({ goalIteration: event.target.value });
+  }
+
+  handleAddGoal = (event) => {
+    this.setState({
+      goals: this.state.goals.concat([{
+        key: this.state.goalId,
+        name: this.state.goalName,
+        iterations: this.state.goalIteration
+      }]),
+      goalId: this.state.goalId + 1
+    });
+  }
+      
   render() {
     return (
       <div className='App'>
@@ -90,17 +84,17 @@ class App extends Component {
           <Column field='Carbohydrate, by difference(g)Per Measure' title='Carbs' />
           <Column field='Sugars, total(g)Per Measure' title='Sugars' />
         </Grid>
-        <div clasName='iteration-area'>
+        <div className='iteration-area'>
           <h2> Healthy Habits </h2>
           <div className='goal-list'>
             <h3> Goals </h3>
             <ul>
-              {this.testGoals.map((goal) => [
-                <li>
+              {this.state.goals.map((goal) => [
+                <li key={goal.goalId}>
                   <h3>{goal.name}</h3>
                   <div className='iterations'>
-                    { [...Array(goal.iterations)].map(() => {
-                      return <input type='radio' /> 
+                    { [...Array(goal.iterations)].map((iteration, index) => {
+                      return <input key={index} type='radio' /> 
                     })}
                   </div>
                 </li>
@@ -108,13 +102,18 @@ class App extends Component {
             </ul>
           </div>
           <div className='addIterationGoal'>
-            <form onSubmit={this.handleSubmit}>
-              <DropDownList data={this.goalOptions} />
-              <NumericTextBox />
-              <button type='button' onClick={this.handleAddGoal} className='add'>
-                Add Goal
-              </button>
-            </form>
+            <DropDownList
+              data={this.goalOptions}
+              value={this.state.goalName}
+              onChange={this.handleNameChange}
+            />
+            <NumericTextBox
+              value={this.state.goalIteration}
+              onChange={this.handleIterationChange}
+            />
+            <button type='button' onClick={this.handleAddGoal} className='add'>
+              Add Goal
+            </button>
           </div>
         </div>
       </div>
