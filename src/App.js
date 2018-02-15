@@ -17,6 +17,24 @@ class App extends Component {
     'Hour of Articles',
     'Hour of Reading'
   ];
+
+  testGoals = [{
+    'id': 0,
+    'name': 'Hour of Articles',
+    'iterations': 2,
+  },{
+    'id': 1,
+    'name': 'Cup of Water',
+    'iterations': 8,
+  },{
+    'id': 2,
+    'name': 'Hour of Code',
+    'iterations': 4,
+  },{
+    'id': 3,
+    'name': '10 Mintues of Meditation',
+    'iterations': 6,
+  }];
     
   constructor(props) {
     super(props)
@@ -33,7 +51,6 @@ class App extends Component {
       data: this.getnutrition(initialFilter),
       filter: initialFilter,
       interationValue: null,
-      goals: []
     };
     this.filterChange = this.filterChange.bind(this);
   }
@@ -46,19 +63,6 @@ class App extends Component {
   }
 
   getnutrition = (filter) => filterBy(nutrition, filter);
-
-  handleGoalChange = (idx) => (event) => {
-    const newGoals = this.state.goals.map((goal, sidx) => {
-      if (idx !== sidx) return goal;
-      return { ...goal };
-    });
-
-    this.setState({ goals: newGoals });
-  }
-
-  handleSubmit = (event) => {
-    const { goals } = this.state;
-  }
 
   handleAddGoal = () => {
     this.setState({ goals: this.state.goals.concat([{ goal: ''}])});
@@ -90,6 +94,14 @@ class App extends Component {
           <h2> Healthy Habits </h2>
           <div className='goal-list'>
             <h3> Goals </h3>
+            <ul>
+              {this.testGoals.map((goal) => [
+                <li>
+                  <h3>{goal.name}</h3>
+                  <p>{goal.iterations}</p>
+                </li>
+              ])}
+            </ul>
           </div>
           <div className='addIterationGoal'>
             <form onSubmit={this.handleSubmit}>
