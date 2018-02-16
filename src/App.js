@@ -10,14 +10,6 @@ import './App.css';
 import nutrition from './nutrition.json';
 
 class App extends Component {
-  goalOptions =  [
-    'Cup of Water',
-    '10 Minutes of Meditation',
-    'Hour of Code',
-    '10 Pushups',
-    'Hour of Articles',
-    'Hour of Reading'
-  ];
 
   constructor(props) {
     super(props)
@@ -36,7 +28,15 @@ class App extends Component {
       goalId: 0,
       goalName: '',
       goalIteration: null,
-      goals: []
+      goals: [],
+      goalOptions: [
+        'Cup of Water',
+        '10 Minutes of Meditation',
+        'Hour of Code',
+        '10 Pushups',
+        'Hour of Articles',
+        'Hour of Reading'
+      ]
     };
     this.filterChange = this.filterChange.bind(this);
   }
@@ -104,7 +104,7 @@ class App extends Component {
           </div>
           <div className='addIterationGoal'>
             <DropDownList
-              data={this.goalOptions}
+              data={this.state.goalOptions}
               value={this.state.goalName}
               onChange={this.handleNameChange}
             />
